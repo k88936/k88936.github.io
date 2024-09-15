@@ -1,1 +1,151 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-08-07T18:49:44+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">k88936’s blog</title><subtitle></subtitle></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-09-15T22:04:38+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">k88936’s blog</title><subtitle></subtitle><entry><title type="html">How To Use Msvc To Compile Qt Project In Wsl2 Clion Env</title><link href="http://localhost:4000/2024/09/15/How-to-Use-Msvc-to-Compile-Qt-Project-in-Wsl2-Clion-Env.html" rel="alternate" type="text/html" title="How To Use Msvc To Compile Qt Project In Wsl2 Clion Env" /><published>2024-09-15T00:00:00+08:00</published><updated>2024-09-15T00:00:00+08:00</updated><id>http://localhost:4000/2024/09/15/How-to-Use-Msvc-to-Compile-Qt-Project-in-Wsl2-Clion-Env</id><content type="html" xml:base="http://localhost:4000/2024/09/15/How-to-Use-Msvc-to-Compile-Qt-Project-in-Wsl2-Clion-Env.html"><![CDATA[<h1 id="the-problem-to-be-solved">The problem to be solved</h1>
+
+<p>I want to work on clion on wsl2 ,to build a multiplatform product, having some problem on MinGW , so I turned to MSVC</p>
+
+<h2 id="prepare">prepare</h2>
+
+<ul>
+  <li>wsl2 is the basis of our discussion.</li>
+  <li>install MSVC ,I choosed Visual Studio 2022 Community.</li>
+  <li>install Qt6,I installed on C:Qt6, <em>note install msvc2019_64 version</em></li>
+</ul>
+
+<h2 id="steps">steps</h2>
+
+<ol>
+  <li>
+    <p><strong>invoke MSVC tools</strong><br />
+ the problem is MSVC has its own env so calling cmake.exe or cl.exe in wsl2 will not work
+ so I turned to call the Powershell for Visual Studio dev and invoke cmake.exe there</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> powershell.exe <span class="nt">-c</span>  <span class="s2">"&amp; 'C:</span><span class="se">\P</span><span class="s2">rogram Files</span><span class="se">\M</span><span class="s2">icrosoft Visual Studio</span><span class="se">\2</span><span class="s2">022</span><span class="se">\C</span><span class="s2">ommunity</span><span class="se">\C</span><span class="s2">ommon7</span><span class="se">\T</span><span class="s2">ools</span><span class="se">\L</span><span class="s2">aunch-VsDevShell.ps1' -SkipAutomaticLocation;cmake ..."</span> 
+</code></pre></div>    </div>
+
+    <p>pay attention to the method to make a Powershell.exe for dev.</p>
+  </li>
+  <li>
+    <p><strong>config Qt6 Compile</strong><br />
+ we need to add “-DCMAKE_TOOLCHAIN_FILE=C:\Qt\6.7.2\msvc2019_64\lib\cmake\Qt6\qt.toolchain.cmake” for cmake to recognize Qt6 cmake project<br />
+ And a param “-DCMAKE_CXX_FLAGS=’-std:c++20 -Zc:__cplusplus’” should be set to solve MSVC build problem</p>
+  </li>
+  <li>
+    <p><strong>prepare a space to build</strong>
+ there is some problem to run MSVC cmake.exe in wsl2 file system. So I determined a place to build.<br />
+ Also to make everything auto ,I Write a Makefiles</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">projectName</span><span class="o">=</span><span class="si">$(</span>shell <span class="nb">basename</span> <span class="si">$(</span>CURDIR<span class="si">))</span>
+ <span class="nv">projectPath</span><span class="o">=</span>D:<span class="se">\\</span>linux<span class="si">$(</span>subst /,<span class="se">\\</span>,<span class="si">$(</span>shell <span class="nb">pwd</span><span class="si">))</span>
+ msvc:
+     powershell.exe <span class="nt">-c</span>  <span class="s2">"&amp; 'C:</span><span class="se">\P</span><span class="s2">rogram Files</span><span class="se">\M</span><span class="s2">icrosoft Visual Studio</span><span class="se">\2</span><span class="s2">022</span><span class="se">\C</span><span class="s2">ommunity</span><span class="se">\C</span><span class="s2">ommon7</span><span class="se">\T</span><span class="s2">ools</span><span class="se">\L</span><span class="s2">aunch-VsDevShell.ps1' -SkipAutomaticLocation;cmake -DCMAKE_BUILD_TYPE=Release  -DCMAKE_TOOLCHAIN_FILE=C:</span><span class="se">\Q</span><span class="s2">t</span><span class="se">\6</span><span class="s2">.7.2</span><span class="se">\m</span><span class="s2">svc2019_64</span><span class="se">\l</span><span class="s2">ib</span><span class="se">\c</span><span class="s2">make</span><span class="se">\Q</span><span class="s2">t6</span><span class="se">\q</span><span class="s2">t.toolchain.cmake  -DCMAKE_CXX_FLAGS='-std:c++20 -Zc:__cplusplus' -S . -B </span><span class="si">$(</span>projectPath<span class="si">)</span><span class="se">\\</span><span class="s2">cmake-build-msvc"</span>
+</code></pre></div>    </div>
+
+    <p><em>note: when I choose Ninja as thr build program, it fails with qt6 not configured well,however the Visual Studio build the project in IDE using Ninja can work</em></p>
+  </li>
+  <li>
+    <p><strong>do the rest thing</strong><br />
+ build, windeployqt:</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> powershell.exe <span class="nt">-c</span>  <span class="s2">"&amp; 'C:</span><span class="se">\P</span><span class="s2">rogram Files</span><span class="se">\M</span><span class="s2">icrosoft Visual Studio</span><span class="se">\2</span><span class="s2">022</span><span class="se">\C</span><span class="s2">ommunity</span><span class="se">\C</span><span class="s2">ommon7</span><span class="se">\T</span><span class="s2">ools</span><span class="se">\L</span><span class="s2">aunch-VsDevShell.ps1' -SkipAutomaticLocation;msbuild </span><span class="si">$(</span>projectPath<span class="si">)</span><span class="se">\\</span><span class="s2">cmake-build-msvc</span><span class="se">\\</span><span class="si">$(</span>projectName<span class="si">)</span><span class="s2">.sln /p:Configuration=Release"</span>
+ /mnt/c/Qt/6.7.2/msvc2019_64/bin/windeployqt.exe <span class="si">$(</span>projectPath<span class="si">)</span><span class="se">\\</span>cmake-build-msvc<span class="se">\\</span>Release<span class="se">\\</span><span class="si">$(</span>projectName<span class="si">)</span>.exe
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="compose-them-all">compose them all</h2>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">.PHONY</span><span class="o">:</span><span class="nf">msvc</span>
+<span class="nv">projectName</span><span class="o">=</span><span class="p">$(</span>shell <span class="nb">basename</span> <span class="p">$(</span>CURDIR<span class="p">))</span>
+<span class="nv">projectPath</span><span class="o">=</span>D:<span class="se">\\</span>linux<span class="p">$(</span>subst /,<span class="se">\\</span>,<span class="p">$(</span>shell <span class="nb">pwd</span><span class="p">))</span>
+<span class="nl">msvc</span><span class="o">:</span>
+    <span class="err">mkdir</span> <span class="err">-p</span> <span class="err">/mnt/d/linux</span><span class="nf">$(</span><span class="nb">shell</span> <span class="nb">pwd</span><span class="p">)</span>
+    <span class="nl">powershell.exe -c  "&amp; 'C</span><span class="o">:</span>\P<span class="nf">rogram Files</span>\M<span class="nf">icrosoft Visual Studio</span>\2<span class="nf">022</span>\C<span class="nf">ommunity</span>\C<span class="nf">ommon7</span>\T<span class="nf">ools</span>\L<span class="nf">aunch-VsDevShell.ps1' -SkipAutomaticLocation;cmake -DCMAKE_BUILD_TYPE=Release  -DCMAKE_TOOLCHAIN_FILE=C:</span>\Q<span class="nf">t</span>\6<span class="nf">.7.2</span>\m<span class="nf">svc2019_64</span>\l<span class="nf">ib</span>\c<span class="nf">make</span>\Q<span class="nf">t6</span>\q<span class="nf">t.toolchain.cmake  -DCMAKE_CXX_FLAGS='-std:c++20 -Zc:__cplusplus' -S . -B $(projectPath)</span>\\<span class="nf">cmake-build-msvc"</span>
+    <span class="nl">powershell.exe -c  "&amp; 'C</span><span class="o">:</span>\P<span class="nf">rogram Files</span>\M<span class="nf">icrosoft Visual Studio</span>\2<span class="nf">022</span>\C<span class="nf">ommunity</span>\C<span class="nf">ommon7</span>\T<span class="nf">ools</span>\L<span class="nf">aunch-VsDevShell.ps1' -SkipAutomaticLocation;msbuild $(projectPath)</span>\\<span class="nf">cmake-build-msvc</span>\\<span class="nf">$(projectName).sln /p:Configuration=Release"</span>
+    <span class="err">/mnt/c/Qt/6.7.2/msvc2019_64/bin/windeployqt.exe</span> <span class="err">$(projectPath)\\cmake-build-msvc\\Release\\$(projectName).exe</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="cpp,wsl2,clion,qt,msvc" /><summary type="html"><![CDATA[The problem to be solved]]></summary></entry><entry><title type="html">How To Cross Compile Qt6 Application To Windows Application In Linux Platform</title><link href="http://localhost:4000/2024/08/13/How-to-Cross-Compile-Qt6-Application-to-Windows-Application-in-Linux-Platform.html" rel="alternate" type="text/html" title="How To Cross Compile Qt6 Application To Windows Application In Linux Platform" /><published>2024-08-13T00:00:00+08:00</published><updated>2024-08-13T00:00:00+08:00</updated><id>http://localhost:4000/2024/08/13/How-to-Cross-Compile-Qt6-Application-to-Windows-Application-in-Linux-Platform</id><content type="html" xml:base="http://localhost:4000/2024/08/13/How-to-Cross-Compile-Qt6-Application-to-Windows-Application-in-Linux-Platform.html"><![CDATA[<h1 id="how-to-cross-compile-qt6-application-to-windows-application-in-linux-platform">How-to-Cross-Compile-Qt6-Application-to-Windows-Application-in-Linux-Platform</h1>
+
+<h2 id="why">why</h2>
+
+<p>Im working on wsl2, having got used to Jetbrains Tools,
+so I use clion to develop qt program instead of qtcreator
+the program I am working on is targeted at not-tech-people ,
+so I need release it on windows</p>
+
+<h2 id="how-to-do-it">how-to-do-it</h2>
+
+<p>env:archlinux on wsl2 ,clion</p>
+
+<h3 id="basic-install">basic install</h3>
+
+<ol>
+  <li>mingw-w64-cmake</li>
+  <li>mingw-w64-g++</li>
+  <li>qt6-base (which is avaliable on archlinux,or you can use online installer)</li>
+  <li>get qt6 mingw package(which I used online installer for windows,and got it in “C:\Qt\6.7.2\mingw_64”,and copy it to ~/qt)</li>
+</ol>
+
+<h3 id="config">config</h3>
+
+<ol>
+  <li>create a qt6 project</li>
+  <li>config toolchain of clion using mingw-w64-cmake,mingw-w64-g++</li>
+</ol>
+
+<h3 id="fix-problem-one-qt6-package--not-found">fix problem one :qt6 package  not found</h3>
+
+<p>add cmake param</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-DCMAKE_TOOLCHAIN_FILE</span><span class="o">=</span>~/qt/lib/cmake/Qt6/qt.toolchain.cmake
+</code></pre></div></div>
+
+<h3 id="fix-problem-two-conflict-between-host-headers-and-mingw-headers">fix problem two: conflict between host-headers and mingw-headers</h3>
+
+<p>add cmake param</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-DCMAKE_SHARED_LINKER_FLAGS</span><span class="o">=</span><span class="s2">"-Wl,-undefined"</span>
+</code></pre></div></div>
+
+<p>add in CMakeLists.txt</p>
+
+<pre><code class="language-txt">set(CMAKE_FIND_USE_CMAKE_SYSTEM_PATH FALSE)
+set(CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH FALSE)
+set(CMAKE_SYSROOT "/usr/x86_64-w64-mingw32/")
+</code></pre>
+
+<p><a href="https://stackoverflow.com/questions/68105648">refer</a>
+if that fails try to swap the position of the two params</p>
+
+<h3 id="fix-problem-three-missing-dlls">fix problem three: missing dlls</h3>
+
+<p>using package tool in ~/qt/bin/windeployqt6.exe ,because I am using wsl2,
+I can run it directly,as this</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>windeployqt6.exe PROJECT/WIN_BUILD/XXX.exe
+</code></pre></div></div>
+
+<p>if it still remind you the missing dll ,find them in /usr/x86_64-w64-mingw32/bin/,copy them to the same dir as XXX.exe</p>
+
+<h3 id="fix-problem-four-the-black-console-appears-when-the-app-run-in-windows">fix problem four: the black console appears when the app run in windows</h3>
+
+<p>edit CMakeLists.txt, pay attention to postion of  WIN32</p>
+
+<pre><code class="language-txt">add_executable(PROJECT WIN32
+        main.cpp )
+</code></pre>
+
+<p><a href="https://www.codenong.com/18553125/">refer</a></p>
+
+<h2 id="compose-them-all-in-makefiles">Compose them all in Makefiles</h2>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">.PHONY</span><span class="o">:</span><span class="nf">mingw</span>
+<span class="nv">projectName</span><span class="o">=</span><span class="p">$(</span>shell <span class="nb">basename</span> <span class="p">$(</span>CURDIR<span class="p">))</span>
+<span class="nv">projectPath</span><span class="o">=</span>D:<span class="se">\\</span>linux<span class="p">$(</span>subst /,<span class="se">\\</span>,<span class="p">$(</span>shell <span class="nb">pwd</span><span class="p">))</span>
+<span class="nl">mingw</span><span class="o">:</span>
+    <span class="err">x86_64-w64-mingw32-cmake</span> <span class="nv">-DCMAKE_BUILD_TYPE</span><span class="o">=</span>Release <span class="nt">-DCMAKE_MAKE_PROGRAM</span><span class="o">=</span>x86_64-w64-mingw32-make <span class="nt">-DCMAKE_C_COMPILER</span><span class="o">=</span>x86_64-w64-mingw32-gcc <span class="nt">-DCMAKE_CXX_COMPILER</span><span class="o">=</span>x86_64-w64-mingw32-g++ <span class="nt">-DCMAKE_TOOLCHAIN_FILE</span><span class="o">=</span>/mnt/c/Qt/6.7.2/mingw_64/lib/cmake/Qt6/qt.toolchain.cmake <span class="nt">-DCMAKE_SHARED_LINKER_FLAGS</span><span class="o">=</span><span class="nt">-Wl</span>,-undefined <span class="nt">-DCMAKE_FIND_USE_CMAKE_SYSTEM_PATH</span><span class="o">=</span>FALSE <span class="nt">-DMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH</span><span class="o">=</span>FALSE <span class="nt">-DCMAKE_SYSROOT</span><span class="o">=</span>/usr/x86_64-w64-mingw32/ <span class="nt">-G</span> <span class="s2">"Unix Makefiles"</span> <span class="nt">-S</span> <span class="nb">.</span> <span class="nt">-B</span> ./cmake-build-mingw
+    <span class="err">cmake</span> <span class="err">--build</span> <span class="err">./cmake-build-mingw</span> <span class="err">--target</span> <span class="err">all</span>
+    <span class="err">cp</span> <span class="err">/usr/x86_64-w64-mingw32/bin/libgcc_s_seh-1.dll</span> <span class="err">./cmake-build-mingw/</span>
+    <span class="err">cp</span> <span class="err">/usr/x86_64-w64-mingw32/bin/libstdc++-6.dll</span>   <span class="err">./cmake-build-mingw/</span>
+    <span class="err">cp</span> <span class="err">/usr/x86_64-w64-mingw32/bin/libwinpthread-1.dll</span>   <span class="err">./cmake-build-mingw/</span>
+    <span class="err">/mnt/c/Qt/6.7.2/mingw_64/bin/windeployqt.exe</span> <span class="err">./cmake-build-mingw/$(projectName).exe</span>
+<span class="nl">testOnWindows</span><span class="o">:</span> <span class="nf">mingw</span>
+    <span class="err">cd</span> <span class="nf">$(</span><span class="nb">shell</span> <span class="nb">pwd</span><span class="p">)</span><span class="err">/cmake-build-mingw/</span> <span class="err">&amp;&amp;</span> <span class="err">./$(projectName).exe</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="qt,wsl2,mingw" /><summary type="html"><![CDATA[How-to-Cross-Compile-Qt6-Application-to-Windows-Application-in-Linux-Platform]]></summary></entry></feed>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>How To Use Msvc To Compile Qt Project In Wsl2 Clion Env | k88936’s blog</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="How To Use Msvc To Compile Qt Project In Wsl2 Clion Env" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The problem to be solved" />
+<meta property="og:description" content="The problem to be solved" />
+<link rel="canonical" href="http://localhost:4000/2024/09/15/How-to-Use-Msvc-to-Compile-Qt-Project-in-Wsl2-Clion-Env.html" />
+<meta property="og:url" content="http://localhost:4000/2024/09/15/How-to-Use-Msvc-to-Compile-Qt-Project-in-Wsl2-Clion-Env.html" />
+<meta property="og:site_name" content="k88936’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-15T00:00:00+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="How To Use Msvc To Compile Qt Project In Wsl2 Clion Env" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-15T00:00:00+08:00","datePublished":"2024-09-15T00:00:00+08:00","description":"The problem to be solved","headline":"How To Use Msvc To Compile Qt Project In Wsl2 Clion Env","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2024/09/15/How-to-Use-Msvc-to-Compile-Qt-Project-in-Wsl2-Clion-Env.html"},"url":"http://localhost:4000/2024/09/15/How-to-Use-Msvc-to-Compile-Qt-Project-in-Wsl2-Clion-Env.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="k88936&apos;s blog" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">k88936&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">How To Use Msvc To Compile Qt Project In Wsl2 Clion Env</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-09-15T00:00:00+08:00" itemprop="datePublished">
+        Sep 15, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h1 id="the-problem-to-be-solved">The problem to be solved</h1>
+
+<p>I want to work on clion on wsl2 ,to build a multiplatform product, having some problem on MinGW , so I turned to MSVC</p>
+
+<h2 id="prepare">prepare</h2>
+
+<ul>
+  <li>wsl2 is the basis of our discussion.</li>
+  <li>install MSVC ,I choosed Visual Studio 2022 Community.</li>
+  <li>install Qt6,I installed on C:Qt6, <em>note install msvc2019_64 version</em></li>
+</ul>
+
+<h2 id="steps">steps</h2>
+
+<ol>
+  <li>
+    <p><strong>invoke MSVC tools</strong><br />
+ the problem is MSVC has its own env so calling cmake.exe or cl.exe in wsl2 will not work
+ so I turned to call the Powershell for Visual Studio dev and invoke cmake.exe there</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> powershell.exe <span class="nt">-c</span>  <span class="s2">"&amp; 'C:</span><span class="se">\P</span><span class="s2">rogram Files</span><span class="se">\M</span><span class="s2">icrosoft Visual Studio</span><span class="se">\2</span><span class="s2">022</span><span class="se">\C</span><span class="s2">ommunity</span><span class="se">\C</span><span class="s2">ommon7</span><span class="se">\T</span><span class="s2">ools</span><span class="se">\L</span><span class="s2">aunch-VsDevShell.ps1' -SkipAutomaticLocation;cmake ..."</span> 
+</code></pre></div>    </div>
+
+    <p>pay attention to the method to make a Powershell.exe for dev.</p>
+  </li>
+  <li>
+    <p><strong>config Qt6 Compile</strong><br />
+ we need to add “-DCMAKE_TOOLCHAIN_FILE=C:\Qt\6.7.2\msvc2019_64\lib\cmake\Qt6\qt.toolchain.cmake” for cmake to recognize Qt6 cmake project<br />
+ And a param “-DCMAKE_CXX_FLAGS=’-std:c++20 -Zc:__cplusplus’” should be set to solve MSVC build problem</p>
+  </li>
+  <li>
+    <p><strong>prepare a space to build</strong>
+ there is some problem to run MSVC cmake.exe in wsl2 file system. So I determined a place to build.<br />
+ Also to make everything auto ,I Write a Makefiles</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">projectName</span><span class="o">=</span><span class="si">$(</span>shell <span class="nb">basename</span> <span class="si">$(</span>CURDIR<span class="si">))</span>
+ <span class="nv">projectPath</span><span class="o">=</span>D:<span class="se">\\</span>linux<span class="si">$(</span>subst /,<span class="se">\\</span>,<span class="si">$(</span>shell <span class="nb">pwd</span><span class="si">))</span>
+ msvc:
+     powershell.exe <span class="nt">-c</span>  <span class="s2">"&amp; 'C:</span><span class="se">\P</span><span class="s2">rogram Files</span><span class="se">\M</span><span class="s2">icrosoft Visual Studio</span><span class="se">\2</span><span class="s2">022</span><span class="se">\C</span><span class="s2">ommunity</span><span class="se">\C</span><span class="s2">ommon7</span><span class="se">\T</span><span class="s2">ools</span><span class="se">\L</span><span class="s2">aunch-VsDevShell.ps1' -SkipAutomaticLocation;cmake -DCMAKE_BUILD_TYPE=Release  -DCMAKE_TOOLCHAIN_FILE=C:</span><span class="se">\Q</span><span class="s2">t</span><span class="se">\6</span><span class="s2">.7.2</span><span class="se">\m</span><span class="s2">svc2019_64</span><span class="se">\l</span><span class="s2">ib</span><span class="se">\c</span><span class="s2">make</span><span class="se">\Q</span><span class="s2">t6</span><span class="se">\q</span><span class="s2">t.toolchain.cmake  -DCMAKE_CXX_FLAGS='-std:c++20 -Zc:__cplusplus' -S . -B </span><span class="si">$(</span>projectPath<span class="si">)</span><span class="se">\\</span><span class="s2">cmake-build-msvc"</span>
+</code></pre></div>    </div>
+
+    <p><em>note: when I choose Ninja as thr build program, it fails with qt6 not configured well,however the Visual Studio build the project in IDE using Ninja can work</em></p>
+  </li>
+  <li>
+    <p><strong>do the rest thing</strong><br />
+ build, windeployqt:</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> powershell.exe <span class="nt">-c</span>  <span class="s2">"&amp; 'C:</span><span class="se">\P</span><span class="s2">rogram Files</span><span class="se">\M</span><span class="s2">icrosoft Visual Studio</span><span class="se">\2</span><span class="s2">022</span><span class="se">\C</span><span class="s2">ommunity</span><span class="se">\C</span><span class="s2">ommon7</span><span class="se">\T</span><span class="s2">ools</span><span class="se">\L</span><span class="s2">aunch-VsDevShell.ps1' -SkipAutomaticLocation;msbuild </span><span class="si">$(</span>projectPath<span class="si">)</span><span class="se">\\</span><span class="s2">cmake-build-msvc</span><span class="se">\\</span><span class="si">$(</span>projectName<span class="si">)</span><span class="s2">.sln /p:Configuration=Release"</span>
+ /mnt/c/Qt/6.7.2/msvc2019_64/bin/windeployqt.exe <span class="si">$(</span>projectPath<span class="si">)</span><span class="se">\\</span>cmake-build-msvc<span class="se">\\</span>Release<span class="se">\\</span><span class="si">$(</span>projectName<span class="si">)</span>.exe
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="compose-them-all">compose them all</h2>
+
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">.PHONY</span><span class="o">:</span><span class="nf">msvc</span>
+<span class="nv">projectName</span><span class="o">=</span><span class="p">$(</span>shell <span class="nb">basename</span> <span class="p">$(</span>CURDIR<span class="p">))</span>
+<span class="nv">projectPath</span><span class="o">=</span>D:<span class="se">\\</span>linux<span class="p">$(</span>subst /,<span class="se">\\</span>,<span class="p">$(</span>shell <span class="nb">pwd</span><span class="p">))</span>
+<span class="nl">msvc</span><span class="o">:</span>
+    <span class="err">mkdir</span> <span class="err">-p</span> <span class="err">/mnt/d/linux</span><span class="nf">$(</span><span class="nb">shell</span> <span class="nb">pwd</span><span class="p">)</span>
+    <span class="nl">powershell.exe -c  "&amp; 'C</span><span class="o">:</span>\P<span class="nf">rogram Files</span>\M<span class="nf">icrosoft Visual Studio</span>\2<span class="nf">022</span>\C<span class="nf">ommunity</span>\C<span class="nf">ommon7</span>\T<span class="nf">ools</span>\L<span class="nf">aunch-VsDevShell.ps1' -SkipAutomaticLocation;cmake -DCMAKE_BUILD_TYPE=Release  -DCMAKE_TOOLCHAIN_FILE=C:</span>\Q<span class="nf">t</span>\6<span class="nf">.7.2</span>\m<span class="nf">svc2019_64</span>\l<span class="nf">ib</span>\c<span class="nf">make</span>\Q<span class="nf">t6</span>\q<span class="nf">t.toolchain.cmake  -DCMAKE_CXX_FLAGS='-std:c++20 -Zc:__cplusplus' -S . -B $(projectPath)</span>\\<span class="nf">cmake-build-msvc"</span>
+    <span class="nl">powershell.exe -c  "&amp; 'C</span><span class="o">:</span>\P<span class="nf">rogram Files</span>\M<span class="nf">icrosoft Visual Studio</span>\2<span class="nf">022</span>\C<span class="nf">ommunity</span>\C<span class="nf">ommon7</span>\T<span class="nf">ools</span>\L<span class="nf">aunch-VsDevShell.ps1' -SkipAutomaticLocation;msbuild $(projectPath)</span>\\<span class="nf">cmake-build-msvc</span>\\<span class="nf">$(projectName).sln /p:Configuration=Release"</span>
+    <span class="err">/mnt/c/Qt/6.7.2/msvc2019_64/bin/windeployqt.exe</span> <span class="err">$(projectPath)\\cmake-build-msvc\\Release\\$(projectName).exe</span>
+</code></pre></div></div>
+
+
+  </div><a class="u-url" href="/2024/09/15/How-to-Use-Msvc-to-Compile-Qt-Project-in-Wsl2-Clion-Env.html" hidden></a>
+</article>
+ <!-- Gitalk comment start  -->
+
+ <!-- Link Gitalk  -->
+ <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+ <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+ <div id="gitalk-container"></div>     <script type="text/javascript">
+     var gitalk = new Gitalk({
+
+     // Gitalk parameters
+         clientID: 'Ov23liVxnJp1mlxmqh6b', //customize
+         clientSecret: 'acf4d0a01662536745c42c60ce1922c98f6f0cb8', //customize
+         repo: 'k88936.github.io', //customize
+         owner: 'k88936', //customize
+         admin: ['k88936'], //customize
+         id: window.location.pathname, // leave this line as it is
+
+     });
+     gitalk.render('gitalk-container');
+ </script>
+ <!-- Gitalk end -->
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">k88936&#39;s blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">k88936&#39;s blog</li><li><a class="u-email" href="mailto:kvtoDev@outlook.com">kvtoDev@outlook.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/k88936"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">k88936</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
