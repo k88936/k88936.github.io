@@ -1,0 +1,14 @@
+[
+  {
+    "title": "rss-reader",
+    "url": "https://k88936.github.io/rss-reader/",
+    "icon": "https://k88936.github.io/rss-reader/rss.svg",
+    "desc": "a tiny web rss-reader , content fetched by github action daily"
+  },
+  {
+    "title": "source-of",
+    "url": "https://k88936.github.io/source-of/",
+    "icon": "https://k88936.github.io/source-of/favcion.svg",
+    "desc": "a collection of software"
+  }
+]
