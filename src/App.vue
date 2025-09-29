@@ -9,7 +9,7 @@
       </el-aside>
       <el-main class="main">
         <div id="Apps">
-          <h2>Featured Apps</h2>
+          <h2>Great Apps</h2>
           <el-row :gutter="20" class="sites-grid">
             <el-col
                 v-for="site in sites"
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import {ref, onMounted} from 'vue'
+import {onMounted, ref} from 'vue'
 import Header from './components/Header.vue'
 import SiteCard from "@/components/SiteCard.vue";
 
