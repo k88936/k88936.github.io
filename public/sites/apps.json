@@ -28,5 +28,11 @@
     "url": "https://www.jnqinghao.com/",
     "icon": "https://www.jnqinghao.com/template/byer/statics/img/logo_min.png",
     "desc": "a generous and great website which brought me a lot of joy at the end of day"
+  },
+  {
+    "title": "m3u8 Downloader",
+    "url": "https://blog.luckly-mjw.cn/tool-show/m3u8-downloader/index.html",
+    "icon": "",
+    "desc": "download stream video of .m3u8"
   }
 ]
