@@ -10,5 +10,23 @@
     "url": "https://k88936.github.io/source-of/",
     "icon": "https://k88936.github.io/source-of/favcion.svg",
     "desc": "a collection of software"
+  },
+  {
+    "title": "StoryMotion",
+    "url": "https://storymotion.video/editor/",
+    "icon": "https://storymotion.video/favicon.ico",
+    "desc": "Hand-Drawn Motion Graphics In Minutes"
+  },
+  {
+    "title": "md-tools",
+    "url": "https://md-tool.com/zh/markdown-to-pdf",
+    "icon": "https://md-tool.com/md-tool-logo.svg",
+    "desc": "md 2 md office"
+  },
+  {
+    "title": "Video",
+    "url": "https://www.jnqinghao.com/",
+    "icon": "https://www.jnqinghao.com/template/byer/statics/img/logo_min.png",
+    "desc": "a generous and great website which brought me a lot of joy at the end of day"
   }
 ]
