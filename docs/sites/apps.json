@@ -10,5 +10,36 @@
     "url": "https://k88936.github.io/source-of/",
     "icon": "https://k88936.github.io/source-of/favcion.svg",
     "desc": "a collection of software"
+  },
+  {
+    "title": "StoryMotion",
+    "url": "https://storymotion.video/editor/",
+    "icon": "https://storymotion.video/favicon.ico",
+    "desc": "Hand-Drawn Motion Graphics In Minutes"
+  },
+  {
+    "title": "md-tools",
+    "url": "https://md-tool.com/zh/markdown-to-pdf",
+    "icon": "https://md-tool.com/md-tool-logo.svg",
+    "desc": "md 2 md office"
+  },
+  {
+    "title": "Video",
+    "url": "https://www.jnqinghao.com/",
+    "icon": "https://www.jnqinghao.com/template/byer/statics/img/logo_min.png",
+    "desc": "a generous and great website which brought me a lot of joy at the end of day"
+  },
+  {
+    "title": "m3u8 Downloader",
+    "url": "https://blog.luckly-mjw.cn/tool-show/m3u8-downloader/index.html",
+    "icon": "",
+    "desc": "download stream video of .m3u8"
+  },
+  {
+    "title": "latexlive",
+    "url": "https://www.latexlive.com/",
+    "icon": "https://latexlive-resourse.oss-cn-beijing.aliyuncs.com/img/favicon.png?ver=1.8.2",
+    "desc": "Math formulas images OCR! A free online LaTeX formula editor. Supports exporting in multiple formats including SVG, large PNG, JPG, MathML, MathML with namespace prefixes, SVGCode, HTML, OMML, and Word documents. You can create any formula, not just mathematical ones! Supports common extension packages such as physics, mhchem for chemistry, and unicode. Instant rendering powered by MathJax."
   }
+  
 ]
