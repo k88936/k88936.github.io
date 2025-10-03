@@ -39,7 +39,7 @@
     "title": "latexlive",
     "url": "https://www.latexlive.com/",
     "icon": "https://latexlive-resourse.oss-cn-beijing.aliyuncs.com/img/favicon.png?ver=1.8.2",
-    "desc": "Math formulas images OCR! A free online LaTeX formula editor. Supports exporting in multiple formats including SVG, large PNG, JPG, MathML, MathML with namespace prefixes, SVGCode, HTML, OMML, and Word documents. You can create any formula, not just mathematical ones! Supports common extension packages such as physics, mhchem for chemistry, and unicode. Instant rendering powered by MathJax."
+    "desc": "A free online LaTeX formula editor with export to multiple formats."
   }
   
 ]
