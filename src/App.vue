@@ -1,32 +1,32 @@
 <template>
   <div id="app">
     <Header/>
-    <el-container>
-      <el-aside>
-        <el-anchor :offset="70" class="anchor-nav">
-          <el-anchor-link href="#Apps">Apps</el-anchor-link>
-        </el-anchor>
-      </el-aside>
-      <el-main class="main">
-        <div id="Apps">
-          <h2>Great Apps</h2>
-          <el-row :gutter="20" class="sites-grid">
-            <el-col
-                v-for="site in sites"
-                :key="site.title"
-                :xs="24"
-                :sm="12"
-                :md="8"
-                :lg="6"
-                class="site-col"
-            >
-              <SiteCard :site="site"/>
-            </el-col>
-          </el-row>
-        </div>
-      </el-main>
-      <el-aside></el-aside>
-    </el-container>
+    <!--    <el-container>-->
+    <!--      <el-aside>-->
+    <!--        <el-anchor :offset="70" class="anchor-nav">-->
+    <!--          <el-anchor-link href="#Apps">Apps</el-anchor-link>-->
+    <!--        </el-anchor>-->
+    <!--      </el-aside>-->
+    <!--      <el-main class="main">-->
+    <!--        <div id="Apps">-->
+    <!--          <h2>Great Apps</h2>-->
+    <!--          <el-row :gutter="20" class="sites-grid">-->
+    <!--            <el-col-->
+    <!--                v-for="site in sites"-->
+    <!--                :key="site.title"-->
+    <!--                :xs="24"-->
+    <!--                :sm="12"-->
+    <!--                :md="8"-->
+    <!--                :lg="6"-->
+    <!--                class="site-col"-->
+    <!--            >-->
+    <!--              <SiteCard :site="site"/>-->
+    <!--            </el-col>-->
+    <!--          </el-row>-->
+    <!--        </div>-->
+    <!--      </el-main>-->
+    <!--      <el-aside></el-aside>-->
+    <!--    </el-container>-->
   </div>
 </template>
 
