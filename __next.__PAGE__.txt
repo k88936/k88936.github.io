@@ -1,0 +1,10 @@
+1:"$Sreact.fragment"
+2:I[62319,["/_next/static/chunks/54a534179cb85241.js"],"default"]
+3:I[92349,["/_next/static/chunks/54a534179cb85241.js"],"default"]
+4:I[79356,["/_next/static/chunks/54a534179cb85241.js"],"default"]
+5:I[44413,["/_next/static/chunks/54a534179cb85241.js"],"default"]
+6:I[63971,["/_next/static/chunks/54a534179cb85241.js"],"default"]
+7:I[36345,["/_next/static/chunks/33074d3ff5d0cd2d.js","/_next/static/chunks/c4d90098b4abc498.js"],"OutletBoundary"]
+8:"$Sreact.suspense"
+0:{"buildId":"B7i-zToy9ypa-ljQon8iM","rsc":["$","$1","c",{"children":[[["$","$L2",null,{}],["$","main",null,{"children":[["$","$L3",null,{}],["$","$L4",null,{}],["$","$L5",null,{}],["$","$L6",null,{}]]}],["$","footer",null,{"className":"py-8 px-6 border-t border-foreground/10","children":["$","div",null,{"className":"max-w-4xl mx-auto text-center text-foreground/50 text-sm","children":["$","p",null,{"children":"k88936. Built with Next.js."}]}]}]],[["$","script","script-0",{"src":"/_next/static/chunks/54a534179cb85241.js","async":true}]],["$","$L7",null,{"children":["$","$8",null,{"name":"Next.MetadataOutlet","children":"$@9"}]}]]}],"loading":null,"isPartial":false}
+9:null
